@@ -1,0 +1,115 @@
+const express = require("express")
+const app = express()
+const bodyParser = require("body-parser")
+const mongoose = require('mongoose')
+const Users = require('./schema/user')
+var jsonParser = bodyParser.json()
+var urlencodedParser = bodyParser.urlencoded({ extended: true })
+app.use(urlencodedParser);
+app.use(jsonParser);
+app.all("*",function(req,res,next){
+    //设置允许跨域的域名，*代表允许任意域名跨域
+    res.header("Access-Control-Allow-Origin","http://localhost:8080");
+    //允许的header类型
+    res.header("Access-Control-Allow-Headers","content-type");
+    //跨域允许的请求方式
+    res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
+    if (req.method.toLowerCase() === 'options')
+        res.sendStatus(200);  //让options尝试请求快速结束
+    else
+        next();
+});
+/*登录验证*/
+app.use("/login",(req,res)=>{
+    let{username,password}=req.body;
+    Users.findOne({
+        username
+    }).then((user)=>{
+        let _data={};
+        if(user){
+            if(!user.isActive){
+                _data={err:1,data:"用户已失效，请通过邮件联系管理员!"};
+                res.send(_data);
+            }else if(user.password !== password.toUpperCase()){
+               _data={err:1,data:"密码错误，请重新输入!"};
+               res.send(_data);
+           }else{
+                _data={err:0,data:{
+                        id:user.id,
+                        name:user.username
+                    }};
+                res.send(_data);
+            }
+        }else{
+            _data={err:1,data:"用户不存在"};
+            res.send(_data);
+        }
+    });
+});
+/*注册验证*/
+app.use('/register',(req,res)=>{
+   let {username,password,phone}=req.body;
+   let {action} = req.query;
+   console.log(username);
+   Users.findOne({
+       username
+   }).then((user)=>{
+       let _data={};
+       if(user){
+           /*用户已存在*/
+           _data={
+               err:"1",
+               data:"用户已存在"
+           };
+           res.send(_data);
+       }else{
+           if(action==="register"){
+               /*往数据表添加用户*/
+               new Users({
+                   username,
+                   password,
+                   phone,
+                   sex:"未知",
+                   recordDate:new Date(),
+                   level:2,
+                   isActive:true
+               }).save((err)=>{
+                   if(err){
+                       _data={
+                           err:"1",
+                           data:"注册失败"
+                       };
+                       /*数据添加日志*/
+                       res.send(_data);
+                   }else{
+                       _data={
+                           err:"0",
+                           data:"注册成功,请重新登录"
+                       };
+                       res.send(_data);
+                   }
+               })
+           }else{
+               _data= {
+                   err: 0,
+                   data: "用户名校验通过"
+               };
+               res.send(_data);
+           }
+       }
+   })
+});
+/*启动服务器*/
+app.listen(3000,(...a)=>{
+    console.log("3000端口成功监听");
+});
+//连接数据库
+const url= 'mongodb://localhost:27018/databases';
+mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true },(err,db)=>{
+    if(err){
+        console.log("数据库连接失败："+err);
+        return
+    }
+    console.log("数据库连接成功");
+});
+
