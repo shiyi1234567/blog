@@ -28,7 +28,7 @@
     box-sizing border-box
     padding 30px 50px
     width 100%
-    height 350px
+    height 100%
     background-color black
     color #fefefe
     border-radius 5px 0 0 5px

@@ -216,7 +216,7 @@
         box-sizing border-box
         padding 30px 50px
         width: 100%
-        height 350px
+        height 100%
         background-color #f7f7f7
         border-radius 0 5px 5px 0
         .login-footer

@@ -1,15 +1,15 @@
 <template>
     <div id="homePage">
-        <div id="wrap">
-            <div id="main">
+        <div id="homeWrap">
+            <div class="content">
                 <el-row>
                     <el-col :span="24"><h1 class="font title">Eleven's Personal Blog</h1></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12">
+                    <el-col :span="12" style="height:450px">
                         <message></message>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :span="12" style="height:450px">
                         <login-action></login-action>
                     </el-col>
                 </el-row>
@@ -39,14 +39,15 @@
     #homePage
         min-height 100%
         min-width 800px
-        height auto
+        height 100%
+        overflow  auto
         background-image url("~@/assets/bg.jpg")
-        #wrap
+        #homeWrap
             min-height 100%
-            height auto
             background-color transparent
-            #main
-                padding 0 160px 45px 160px
+            .content
+                padding 0 160px 65px 160px
+                height 450px
                 .title
                     font-size 24px
                     text-align center
@@ -54,11 +55,11 @@
                     height 60px
                     line-height 60px
         #footer
-            height 45px
-            margin-top -45px
+            height 65px
+            margin-top -65px
             .font
-                height 45px
-                line-height 45px
+                height 65px
+                line-height 65px
                 text-align center
             .connect
                 color: #252525

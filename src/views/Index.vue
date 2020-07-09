@@ -1,24 +1,30 @@
 <template>
     <div id="main">
-        <div id="main-header">
-            <index-header></index-header>
-        </div>
-        <div id="main-content">
-            <router-view></router-view>
-        </div>
+        <el-container>
+            <el-aside width="200px">
+                <index-menu></index-menu>
+            </el-aside>
+            <el-main>
+                <router-view></router-view>
+            </el-main>
+        </el-container>
     </div>
 </template>
 
 <script>
-    import IndexHeader from '../components/IndexHeader'
+    import IndexMenu from '../components/IndexMenu'
     export default {
         name: "Index",
         components:{
-            IndexHeader
+            IndexMenu
         }
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="stylus">
+#main
+    height 100%
+    width 100%
+    .el-main
+        padding 0
 </style>
