@@ -1,6 +1,6 @@
 <template>
     <div id="login">
-        <div v-show="action=='Login.vue'" class="login-main">
+        <div v-show="action==='loginForm'" class="login-main">
             <el-form :model="loginForm" :rules="rulesForm" status-icon ref="loginForm" label-width="80px" class="demo-ruleForm" label-position="right" size="mini">
                 <el-form-item label="用户名" prop="name">
                     <el-input type="text" v-model="loginForm.name" placeholder="请输入用户名"></el-input>
@@ -10,7 +10,7 @@
                 </el-form-item>
             </el-form>
         </div>
-        <div v-show="action=='register'" class="login-main">
+        <div v-show="action==='register'" class="login-main">
             <el-form :model="registerForm" :rules="rulesForm" ref="registerForm" status-icon  label-width="80px" class="demo-ruleForm" label-position="right" size="mini">
                 <el-form-item label="用户名" prop="nameRegister">
                     <el-input type="text" v-model="registerForm.nameRegister" placeholder="不超过12个字符"></el-input>
@@ -27,19 +27,43 @@
             </el-form>
         </div>
         <div class="login-footer">
-            <div style="display: table-cell">
-                <el-button plain @click="login('loginForm')">登录</el-button>
-                <el-button plain @click="register('registerForm')">注册</el-button>
+            <div style="display: table-row">
+                <div>
+                    <template>
+                        <!-- `checked` 为 true 或 false -->
+                        <el-checkbox v-model="checked">3天内自动登录</el-checkbox>
+                    </template>
+                </div>
             </div>
+            <div style="display: table-row">
+                <div style="display: table-cell">
+                    <el-button plain @click="login('loginForm')">登录</el-button>
+                    <el-button plain @click="register('registerForm')">注册</el-button>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </template>
 
 <script>
+    import {setCookie,getCookie} from '../utils/utils.js'
+    console.log(setCookie);
     export default {
         name: "LoginAction",
+        mounted(){
+          //挂载的时候检查是否有cookie
+          let cookieLogin = getCookie();
+          if(cookieLogin!==0){
+              /*存在cookie 自动登录*/
+                this.loginForm.name = cookieLogin.userName;
+                this.loginForm.pass = cookieLogin.password;
+                this.login('loginForm');
+          }
+        },
         data(){
-            var validateName = (rule, value, callback)=>{
+            let validateName = (rule, value, callback)=>{
                 if(value===""){
                     callback(new Error("用户名不能为空"));
                 }else if(value.length>12){
@@ -50,28 +74,31 @@
                 }
 
             };
-            var validatePass =(rule,value,callback)=>{
-                let re = new RegExp(/^\w{4,8}$/);
+            let validatePass =(rule,value,callback)=>{
+                let reg = new RegExp(/^\w{4,8}$/);
+
                 if(value===""){
                     callback(new Error("密码不能为空"));
-                }else if(!re.test(value)){
+                }else if(!reg.test(value)){
                     callback(new Error("密码必须是数字或英文和_,长度在4~8位"));
                 }else{
                     callback()
                 }
 
             };
-            var validatePass2 = (rule,value,callback)=>{
+            let validatePass2 = (rule,value,callback)=>{
+
                 /*
                 * 注册密码校验
                 * 密码必须是数字或英文  长度在4~8位
                 * 两次密码是否一致
                 * 密码会自动转大写
                 * */
-                let re = new RegExp(/^\w{4,8}$/);
+
+                let reg = new RegExp(/^\w{4,8}$/);
                 if(value===""){
                     callback(new Error("请确认密码!"));
-                }else if(!re.test(value)){
+                }else if(!reg.test(value)){
                     callback(new Error("密码必须是数字或英文或_,长度在4~8位!"));
                 }else if(value.toUpperCase()!==this.registerForm.pass.toUpperCase()){
                     callback(new Error("两次输入的密码不一致!"));
@@ -80,8 +107,9 @@
                 }
 
             };
-            var validatePhone = (rule,value,callback)=>{
+            let validatePhone = (rule,value,callback)=>{
                 let reg = new RegExp(/^[1]+[3,8]+\d{9}$/);
+
                 if(value===""){
                     callback(new Error("请输入电话号码"));
                 }else if(!reg.test(value)){
@@ -90,21 +118,23 @@
                     callback();
                 }
             };
-            var validateNameRegister =(rule,value,callback)=>{
+            let validateNameRegister =(rule,value,callback)=>{
+
                 if(value===""){
                     callback(new Error("用户名不能为空"));
-                    return
                 }else if(value.length>12){
                     callback(new Error("用户名不能超过12个字符"));
-                    return
                 }
                 /*服务器校验*/
+
                 this.$axios.post("http://localhost:3000/register?action=form",{username:this.registerForm.nameRegister,password:this.loginForm.pass}).then((res)=>{
                     let result = res.data;
-                    if(result.err === undefined || result.err=="1"){
+                    if(result.err === undefined || result.err==="1"){
+
                         /*校验失败*/
                         callback(new Error(result.data));
                     }else{
+
                         /*校验成功*/
                         callback();
                     }
@@ -115,7 +145,7 @@
 
             };
             return{
-                action:"Login.vue",
+                action:"loginForm",
                 loginForm:{
                     name:"",
                     pass:""
@@ -142,13 +172,14 @@
                     nameRegister:[
                         {required: true,validator:validateNameRegister,trigger:'blur'}
                     ]
-                }
+                },
+                checked:true
             }
         },
         methods:{
             login(formName){
-                if(this.action !=="Login.vue"){
-                    this.action = "Login.vue";
+                if(this.action !=="loginForm"){
+                    this.action = "loginForm";
                     this.$refs["registerForm"].resetFields();
                     return
                 }
@@ -171,6 +202,10 @@
                                 sessionStorage.setItem("userId",result.data.id);
                                 /*登陆成功 跳转首页*/
                                 //location.href="/index"
+                                /*自动登录*/
+                                if(this.checked){
+                                    setCookie(this.loginForm.name,this.loginForm.pass,3);
+                                }
                                 this.$router.push('/index');
                             }
                         }).then((err)=>{
@@ -221,6 +256,7 @@
         border-radius 0 5px 5px 0
         .login-footer
             display table
+            padding-bottom 20px
             position: absolute
             bottom 0
             left 0

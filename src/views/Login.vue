@@ -6,10 +6,10 @@
                     <el-col :span="24"><h1 class="font title">Eleven's Personal Blog</h1></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="12" style="height:450px">
+                    <el-col :span="12" class="hei_400">
                         <message></message>
                     </el-col>
-                    <el-col :span="12" style="height:450px">
+                    <el-col :span="12" class="hei_400">
                         <login-action></login-action>
                     </el-col>
                 </el-row>
@@ -47,13 +47,14 @@
             background-color transparent
             .content
                 padding 0 160px 65px 160px
-                height 450px
                 .title
                     font-size 24px
                     text-align center
                     color white
                     height 60px
                     line-height 60px
+                .hei_400
+                    height 330px
         #footer
             height 65px
             margin-top -65px

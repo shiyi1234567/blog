@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -10,8 +9,8 @@ export default new Vuex.Store({
   },
   mutations: {
     updateUser(state,user){
-      this.state.userName = user.userName || "";
-      this.state.userId = user.userId || "";
+      state.userName = user.userName || "";
+      state.userId = user.userId || "";
     }
   },
   actions: {

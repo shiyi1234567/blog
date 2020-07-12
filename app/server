@@ -3,8 +3,9 @@ const app = express()
 const bodyParser = require("body-parser")
 const mongoose = require('mongoose')
 const Users = require('./schema/user')
-var jsonParser = bodyParser.json()
-var urlencodedParser = bodyParser.urlencoded({ extended: true })
+const jsonParser = bodyParser.json()
+const Content = require('./schema/content')
+const urlencodedParser = bodyParser.urlencoded({ extended: true })
 app.use(urlencodedParser);
 app.use(jsonParser);
 app.all("*",function(req,res,next){
@@ -98,6 +99,44 @@ app.use('/register',(req,res)=>{
            }
        }
    })
+});
+
+/*根据用户ID取用户信息*/
+app.use('/loadPatient',(req,res)=>{
+   let {userId} = req.body;
+    let _data={};
+   if(userId){
+       let selectType = {_id:userId};
+       Users.findOne(selectType).then((user)=>{
+           if(user){
+               _data={err:0,data:user};
+               res.send(_data)
+           }else{
+               _data={err:1,data:"未查找到患者数据"};
+               res.send(_data)
+           }
+       })
+   }else{
+       _data={err:1,data:"Id为空"};
+       res.send(_data)
+   }
+});
+/*检索查文档*/
+app.use('/loadContent',(req,res)=>{
+    let _data = {};
+    let {search,searchKey}=req.body;
+    console.log(Users)
+    console.log(Content)
+    Content.find().toArray((content)=>{
+        console.log(content)
+        if(content){
+            _data={err:0,data:content};
+            res.send(_data);
+        }else{
+            _data={err:1,data:"检索文档出错"};
+            res.send(_data);
+        }
+    })
 });
 /*启动服务器*/
 app.listen(3000,(...a)=>{

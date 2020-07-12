@@ -7,11 +7,12 @@ import Home from '../components/Home.vue'
 import Study from '../components/Study.vue'
 import VideoRoom from '../components/VideoRoom.vue'
 import Photo from '../components/Photo'
+
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
-}
+};
 
   const routes = [
   {
@@ -79,7 +80,6 @@ router.beforeEach((to,from,next)=>{
     * 1.除了登录注册页面，所有页面都至少是游客登录
     * 2.特殊页面：必须是注册用户登录
     * */
-    console.log(to)
    if(to.name==="loginLink"){
        /*登录页面 直接放行*/
        next();
