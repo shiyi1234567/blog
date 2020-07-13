@@ -35,5 +35,5 @@
 #search
     .search_box
         width 180px
-        height 18px
+        height 48px
 </style>

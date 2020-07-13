@@ -1,11 +1,10 @@
 <template>
     <div id="home">
         <el-container>
-            <el-main>
+            <el-main style="padding:30px 20px">
                 <main-search @search="search"></main-search>
-                <main-content></main-content>
+                <main-content :contents="contents"></main-content>
             </el-main>
-            <el-aside width="200px" style="background-color: #C0C4CC;height: 100%;">留言板</el-aside>
         </el-container>
     </div>
 </template>
@@ -15,6 +14,11 @@
     import MainContent from './MainContent'
     export default {
         name: "Home",
+        data(){
+            return{
+
+            }
+        },
         methods:{
           search(value){
               if(value===""){
@@ -38,5 +42,4 @@
 </script>
 
 <style scoped lang="stylus">
-
 </style>

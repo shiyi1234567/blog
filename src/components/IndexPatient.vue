@@ -48,7 +48,7 @@
 <style scoped lang="stylus">
     #patientInfo
         padding 20px
-        height 100%
+        height 60px 
         overflow hidden
         .patient_img
             width 40px

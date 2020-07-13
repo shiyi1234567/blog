@@ -183,6 +183,27 @@
                     this.$refs["registerForm"].resetFields();
                     return
                 }
+                
+                console.log(formName);
+                let result = {};
+                result.data={};
+                result.data.name="admin";
+                result.data.id="123456";
+                 /*登陆成功 注册Vuex 保存当前用户名称和id*/
+                this.$store.commit('updateUser',{
+                    userName:result.data.name,
+                    userId:result.data.id
+                });
+                // this.$router.push('/index');
+                // /*保存sessionStorage*/
+                // sessionStorage.setItem("userName",result.data.name);
+                // sessionStorage.setItem("userId",result.data.id);
+                // /*登陆成功 跳转首页*/
+                // //location.href="/index"
+                // /*自动登录*/
+                // if(this.checked){
+                //     setCookie(this.loginForm.name,this.loginForm.pass,3);
+                // }
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         /*表单校验通过之后  到后台服务器验证用户名和密码*/

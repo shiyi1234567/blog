@@ -1,11 +1,12 @@
-<template>
+<template> 
     <div id="wrap">
         <el-row class="tac">
-            <el-col :span="24">
+            <el-col>
                 <el-menu
                         default-active="home"
                         class="el-menu-vertical-demo"
                         router
+                        style="border-right:none;"
                         >
                     <index-patient :patientInfo="patientInfo"></index-patient>
                     <el-menu-item index="home">
@@ -88,4 +89,8 @@
 <style scoped lang="stylus">
 #wrap
     font-size 0
+    height 100%
+    min-height 100%
+    border-right 1px solid #e6e6e6
+    overflow hidden
 </style>
