@@ -1,4 +1,4 @@
-<template> 
+<template>
     <div id="wrap">
         <el-row class="tac">
             <el-col>
@@ -41,7 +41,7 @@
                         </el-menu-item-group>
                     </el-submenu>
                     <el-menu-item @click="loginOut" :style="{height:'45px'}">
-                        <i class="el-icon-user-solid"></i>
+                        <i class="el-icon-delete-solid"></i>
                         <span>退出登录</span>
                     </el-menu-item>
                 </el-menu>
@@ -55,7 +55,7 @@
     import IndexPatient from './IndexPatient'
     import {getCookie,clearCookie} from '../utils/utils.js'
     export default {
-        name: "IndexHeader",
+        name: "IndexMenu",
         data(){
           return{
               patientInfo:{}

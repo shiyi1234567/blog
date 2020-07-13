@@ -3,7 +3,7 @@
         <div class="patient_img demo-basic--circle">
             <div class="block">
                 <el-avatar :size="size">
-                    <img :src="patientInfo.src" alt="">
+                    <img src="../assets/bg2.jpg" alt="">
                 </el-avatar>
             </div>
         </div>
@@ -48,7 +48,7 @@
 <style scoped lang="stylus">
     #patientInfo
         padding 20px
-        height 60px 
+        height 60px
         overflow hidden
         .patient_img
             width 40px

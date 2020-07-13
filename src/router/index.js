@@ -7,7 +7,7 @@ import Home from '../components/Home.vue'
 import Study from '../components/Study.vue'
 import VideoRoom from '../components/VideoRoom.vue'
 import Photo from '../components/Photo'
-
+import ArticleDetail from '../components/ArticleDetail'
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -51,10 +51,16 @@ VueRouter.prototype.push = function push(location) {
               component:VideoRoom
           },
           {
-              /*主页中的影音室页*/
+              /*主页中的摄影页*/
               path:"/index/photo",
               name:"indexPhotoLink",
               component:Photo
+          },
+          {
+              /*文章详情页*/
+              path:"/index/article/:id",
+              name:"articleLink",
+              component:ArticleDetail
           }
       ]
   }
@@ -80,12 +86,13 @@ router.beforeEach((to,from,next)=>{
     * 1.除了登录注册页面，所有页面都至少是游客登录
     * 2.特殊页面：必须是注册用户登录
     * */
-   if(to.name==="loginLink"){
+    console.log(to);
+   if(to.name==="loginLink" || to.fullPath.includes('static')){
        /*登录页面 直接放行*/
        next();
    }else{
        /*非登陆页面  验证是否有过登录*/
-       if(!getloginStatus()){
+       if(0===getLoginStatus()){
            /*未登录，跳转登录页面*/
            next({
                path:'/login'
@@ -95,18 +102,18 @@ router.beforeEach((to,from,next)=>{
        }
    }
 });
-function getloginStatus() {
+function getLoginStatus() {
     /*刷新当前页面  自动登录*/
     let username = sessionStorage.getItem("userName")||"";
     let userid = sessionStorage.getItem("userId")||"";
+    store.commit('updateUser',{
+        userName:username,
+        userId:userid
+    });
     if(username!==""&&userid!==""){
-        store.commit('updateUser',{
-            userName:username,
-            userId:userid
-        });
-        return true
+        return 1
     }else{
-        return false
+        return 0
     }
 }
 export default router

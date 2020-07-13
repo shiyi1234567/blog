@@ -7,9 +7,10 @@
             <el-main>
                 <router-view></router-view>
             </el-main>
-            <el-aside style="min-height:100%;width:200px;">
-                <message-board :show="isShowBoard" class="board"></message-board>
+            <el-aside style="min-height:100%;width:200px;" v-show="isShowBoard">
+                <message-board :show="isShowBoard" class="board" @closeBoard="troggleBoard" style="width:200px"></message-board>
             </el-aside>
+            <el-button icon="el-icon-notebook-1" v-show="!isShowBoard" @click="troggleBoard" style="position: fixed;top:300px;right: 10px;">留言板</el-button>
         </el-container>
     </div>
 </template>
@@ -27,16 +28,21 @@
                 isShowBoard:true
             }
         },
+        methods:{
+        troggleBoard(){
+            this.isShowBoard = !this.isShowBoard
+        }
+        },
         components:{
             IndexMenu,
             MessageBoard
-        } 
+        }
     }
 </script>
 
 <style scoped lang="stylus">
 #main
-    height 100% 
+    height 100%
     min-height 100%
     width 100%
     .el-main

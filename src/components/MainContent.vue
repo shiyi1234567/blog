@@ -23,7 +23,31 @@
                     contentId:"12345677",
                     desc:"这是一篇关于Vue介绍的文章",
                     group:"JavaScript"
-                },]
+                },{
+                    title:"Vue详情",
+                    author:"十一",
+                    contentId:"12345679",
+                    desc:"这是一篇关于Vue介绍的文章",
+                    group:"Vue"
+                },{
+                    title:"JavaScript详情",
+                    author:"十一",
+                    contentId:"12345676",
+                    desc:"这是一篇关于Vue介绍的文章",
+                    group:"JavaScript"
+                },{
+                    title:"Vue详情",
+                    author:"十一",
+                    contentId:"12345675",
+                    desc:"这是一篇关于Vue介绍的文章",
+                    group:"Vue"
+                },{
+                    title:"JavaScript详情",
+                    author:"十一",
+                    contentId:"12345674",
+                    desc:"这是一篇关于Vue介绍的文章",
+                    group:"JavaScript"
+                }]
             }
         },
         components:{

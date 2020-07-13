@@ -10,7 +10,7 @@
                     router
                     default-active="home">
                 <el-menu-item class="patientInfo">
-                    <img src="../assets/bg2.jpg" alt="头像">
+                    <img src="../../public/bg2.jpg" alt="头像">
                 </el-menu-item>
                 <el-menu-item index="" disabled="">{{username}}</el-menu-item>
                 <el-submenu index="" :style="{float:'right'}">
@@ -45,18 +45,18 @@
     }
 </script>
 <style scoped lang="stylus">
-#wrap
-    font-size 0
-    .patientInfo
-        display inline-block
-        padding 0
-        margin 10px
-        width 40px
-        height 40px
-        border-radius 50%
-        overflow hidden
-        img
-            width: 100%
-            height 100%
-            vertical-align top
+    #wrap
+        font-size 0
+        .patientInfo
+            display inline-block
+            padding 0
+            margin 10px
+            width 40px
+            height 40px
+            border-radius 50%
+            overflow hidden
+            img
+                width: 100%
+                height 100%
+                vertical-align top
 </style>
