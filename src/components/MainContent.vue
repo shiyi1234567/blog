@@ -57,4 +57,6 @@
 </script>
 
 <style scoped lang="stylus">
+#content
+    padding 10px 40px
 </style>

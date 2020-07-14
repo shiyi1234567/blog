@@ -1,14 +1,7 @@
 <template>
     <div id="messageDetail">
-        <div class="detail_head">
-            <span class="detail_title">{{messageDetail.user}}</span>
-        </div>
-        <div>
-
-            <p class="detail_content">{{messageDetail.content}}</p>
-        </div>
-        <div class="detail_footer"><span class="detail_date">{{messageDetail.date}}</span>
-            <span>回复</span></div>
+            <span class="detail_user">{{messageDetail.user}}:</span>
+            <span class="detail_content">{{messageDetail.content}}</span>
     </div>
 </template>
 
@@ -21,18 +14,11 @@
 
 <style scoped lang="stylus">
 #messageDetail
-    padding-top 5px
-    .detail_head
-        overflow hidden
-        .detail_title
-            float left
-            font-size 14px
-    p
-        margin 2px 0
-        font-size 12px
-    .detail_footer
-            font-size 10px
-    .detail_content
-        display block
-        width 100%
+    position relative
+    padding 5px 0
+    font-size 12px
+    font-weight 400
+    color #C0C0C0
+    .detail_user
+        color #99CCFF    
 </style>

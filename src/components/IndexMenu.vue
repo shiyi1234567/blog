@@ -15,7 +15,7 @@
                     </el-menu-item>
                     <el-menu-item index="study">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">工程</span>
+                        <span slot="title">文档</span>
                     </el-menu-item>
                     <el-menu-item index="videoroom">
                         <i class="el-icon-video-camera"></i>
@@ -31,10 +31,10 @@
                             <span>用户中心</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="userSystem" >用户管理</el-menu-item>
+                            <el-menu-item index="usersystem" >用户管理</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group >
-                            <el-menu-item index="dataSystem">数据管理</el-menu-item>
+                            <el-menu-item index="datasystem">数据管理</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group>
                             <el-menu-item index="setting">设置</el-menu-item>

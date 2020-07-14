@@ -8,6 +8,8 @@ import Study from '../components/Study.vue'
 import VideoRoom from '../components/VideoRoom.vue'
 import Photo from '../components/Photo'
 import ArticleDetail from '../components/ArticleDetail'
+import UserSystem from '../components/UserSystem'
+import DataSystem from '../components/DataSystem'
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -39,7 +41,7 @@ VueRouter.prototype.push = function push(location) {
               component:Home
           },
           {
-              /*主页中的工程页*/
+              /*主页中的文档页*/
               path:"/index/study",
               name:"indexStudyLink",
               component:Study
@@ -61,6 +63,18 @@ VueRouter.prototype.push = function push(location) {
               path:"/index/article/:id",
               name:"articleLink",
               component:ArticleDetail
+          },
+          {
+              /*用户管理中心*/
+              path:"/index/usersystem",
+              name:"userSystemLink",
+              component:UserSystem
+          },
+          {
+              /*数据管理中心*/
+              path:"/index/datasystem",
+              name:"dataSystemLink",
+              component:DataSystem
           }
       ]
   }
