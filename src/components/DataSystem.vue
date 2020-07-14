@@ -1,15 +1,15 @@
 <template>
-  <div id="dataSystem">
-      数据管理系统
-  </div>
+    <div id="dataSystem">
+        数据管理系统
+    </div>
 </template>
 
 <script>
-export default {
-    name:"DataSystem"
-}
+    export default {
+        name:"DataSystem"
+    }
 </script>
 
-<style>
+<style scoped lang="stylus">
 
 </style>
