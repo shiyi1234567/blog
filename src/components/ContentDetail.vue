@@ -1,11 +1,15 @@
 <template>
     <div id="detail">
         <el-card class="box-card">
-            <div slot="header" class="clearfix">
-                <span>{{contentDetail.title}}</span>
+            <div>
+                <div class="card_title">
+                    <span>{{contentDetail.title}}</span>
+                    <span class="right" style="color: #2e2e2e;">{{contentDetail.author}}</span>
+                </div>
             </div>
-            <div class="text item">
-                <div>{{contentDetail.desc}}</div>
+            <div>
+                <p class="card_content ">&nbsp;&nbsp;&nbsp;&nbsp;{{contentDetail.desc}}</p>
+                <span class="card_date color_blue" style="float: left;">{{contentDetail.date}}</span>
                 <el-button style="float: right; padding: 3px 0" type="text">
                     <router-link :to="{name:'articleLink',params:{id:contentDetail.contentId},query:{a:1}}" tag="span">
                         查看详情
@@ -25,18 +29,14 @@
 
 <style scoped lang="stylus">
     #detail
-        padding-bottom 10px
+        padding-bottom 5px
         overflow hidden
-        .text
-            font-size: 14px;
-        .item
-            margin-bottom: 18px;
-        .clearfix:before,
-        .clearfix:after
-            display: table;
-            content: "";
-        .clearfix:after
-            clear: both
+        font-size 12px
         .box-card
-            width: 580px;
+            .card_title
+                line-height 24px
+                font-size 14px
+                font-weight bold
+            .card_date
+                padding-left 20px
 </style>>

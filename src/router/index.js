@@ -10,6 +10,8 @@ import Photo from '../components/Photo'
 import ArticleDetail from '../components/ArticleDetail'
 import UserSystem from '../components/UserSystem'
 import DataSystem from '../components/DataSystem'
+import MainContent from '../components/MainContent'
+import SetPage from '../components/SetPage'
 Vue.use(VueRouter);
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -44,7 +46,16 @@ VueRouter.prototype.push = function push(location) {
               /*主页中的文档页*/
               path:"/index/study",
               name:"indexStudyLink",
-              component:Study
+              component:Study,
+              redirect: '/index/study/vue',
+              children:[
+                  {
+                      /*文档页中的分类查询*/
+                      path:"/index/study/:id",
+                      name:"indexStudyWordLink",
+                      component:MainContent
+                  }
+              ]
           },
           {
               /*主页中的影音室页*/
@@ -60,7 +71,7 @@ VueRouter.prototype.push = function push(location) {
           },
           {
               /*文章详情页*/
-              path:"/index/article/:id",
+              path:"/index/article/study/:id",
               name:"articleLink",
               component:ArticleDetail
           },
@@ -75,6 +86,12 @@ VueRouter.prototype.push = function push(location) {
               path:"/index/datasystem",
               name:"dataSystemLink",
               component:DataSystem
+          },
+          {
+              /*设置*/
+              path:"/index/setting",
+              name:"settingLink",
+              component:SetPage
           }
       ]
   }

@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
     level:String,  //权限级别
     isActive:Boolean,  //用户有效性
     src:String,  //头像
-    address:String  //地址
+    address:String,  //地址
+    updateDate:Date  //最近一次修改信息的时间
 });
 
 module.exports = mongoose.model("users",userSchema);

@@ -1,9 +1,12 @@
 <template>
     <div id="home">
         <el-container>
+            <el-header style="height:45px;line-height: 45px">
+                <main-search @search="search" class="search_box"></main-search>
+                <h3 style="margin: 0;height: 45px;line-height: 45px">新消息发布</h3>
+            </el-header>
             <el-main style="padding:30px 20px">
-                <main-search @search="search"></main-search>
-                <main-content :contents="contents"></main-content>
+                <main-content :contents="contents" :search="searchKey"></main-content>
             </el-main>
         </el-container>
     </div>
@@ -16,19 +19,22 @@
         name: "Home",
         data(){
             return{
-
+                contents:[],
+                searchKey:""
             }
         },
         methods:{
           search(value){
-              if(value===""){
-                    return
-              }else{
-                  this.loadContent(value);
-              }
+              this.searchKey=value;
+              // if(value===""){
+              //       return
+              // }else{
+              //     this.loadContent(value);
+              // }
+              this.loadContent(value);
           },
           async loadContent(value){
-              let contentArray =await this.$axios.post('http://localhost:3000/loadContent',{search:value})
+              let contentArray =await this.$axios.post('http://localhost:3000/loadContent',{search:value});
               if(contentArray.data.err===0){
                   this.contents = contentArray.data.data;
               }
@@ -42,4 +48,9 @@
 </script>
 
 <style scoped lang="stylus">
+    #home
+        .search_box
+            display inline-block
+            width 250px
+            float right
 </style>

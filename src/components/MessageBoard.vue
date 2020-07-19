@@ -53,7 +53,7 @@ export default {
     },
     sendContent() {
       //取Vuex中保存的用户信息
-      if (this.form.desc == "") return;
+      if (this.form.desc === "") return;
       let { userId, userName } = this.$store.state;
       let contentObj = {
         Id: this.messageList.length + 1,
@@ -64,6 +64,7 @@ export default {
       };
       this.messageList.push(contentObj);
       localStorage.setItem("messageList", JSON.stringify(this.messageList));
+        this.form.desc = "";
     }
   },
   components: {

@@ -54,7 +54,7 @@
                     height 60px
                     line-height 60px
                 .hei_400
-                    height 330px
+                    height 400px
         #footer
             height 65px
             margin-top -65px

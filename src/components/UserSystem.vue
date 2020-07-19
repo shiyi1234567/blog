@@ -1,120 +1,120 @@
 <template>
     <div id="userSystem">
-        <div v-show="!isEdit">
+        <div>
+            <h4>{{tableTitle}}</h4>
             <template>
                 <el-table
-                        :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-                        :default-sort="{prop: 'date', order: 'descending'}"
+                        :data="tableData"
+                        border
+                        v-loading="loading"
+                        ref="multipleTable"
+                        width="600px"
+                        size="mini"
+                        @selection-change="selectUserList"
+                        @select-all="selectAll"
+
                 >
-                    <el-table-column label="日期" prop="date" sortable></el-table-column>
-                    <el-table-column label="名字" prop="name" sortable></el-table-column>
-                    <el-table-column label="联系电话" prop="phone"></el-table-column>
-                    <el-table-column label="性别" prop="sex"></el-table-column>
-                    <el-table-column label="地址" prop="address"></el-table-column>
-                    <el-table-column align="right">
-                        <template slot="header" slot-scope>
-                            <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-                        </template>
+                    <el-table-column
+                            type="selection"
+                            width="35"
+                            align="center"
+                    >
+                    </el-table-column>
+                    <el-table-column label="日期" prop="recordDate" sortable  align="center" :formatter="formatDate"></el-table-column>
+                    <el-table-column label="名字" prop="username" sortable  align="center"></el-table-column>
+                    <el-table-column label="联系电话" prop="phone" align="center"></el-table-column>
+                    <el-table-column label="性别" prop="sex" align="center"></el-table-column>
+                    <el-table-column label="地址" prop="address" align="center"></el-table-column>
+                    <el-table-column label="操作" width="200" align="center" >
                         <template slot-scope="scope">
                             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
+                <div style="padding: 5px 0;">
+                    <el-button type="danger" @click="delMany">批量删除</el-button>
+                </div>
                 <el-pagination
-                        @size-change="handleSizeChange"
-                        @current-change="handleCurrentChange"
-                        :current-page="currentPage"
+                        :current-page="pageForm.pageNumber"
                         :page-sizes="[5, 10, 15, 20]"
-                        :page-size="10"
+                        :page-size="pageForm.limit"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="4"
+                        :total="pageForm.total"
+                        @size-change="changePageSize"
+                        @current-change="changeCurrentPage"
+                        @prev-click="prevClick"
+                        @next-click="nextClick"
                 ></el-pagination>
             </template>
         </div>
+        <el-dialog
+                title="修改用户信息"
+                :visible.sync="dialogVisible"
+                width="30%"
+                >
+            <edit-page v-show="dialogVisible" :userInfo="editUser" @handleUser="handleUser"></edit-page>
+        </el-dialog>
 
-        <edit-page v-show="isEdit" :userInfo="editUser" @handleUser="handleUser"></edit-page>
     </div>
-</template>
-</div>
 </template>
 
 <script>
     import EditPage from "./EditPage";
     export default {
         name: "UserSystem",
+         created(){
+            this.loadUser();
+        },
+        mounted(){
+        },
         data() {
             return {
                 tableData: [
-                    {
-                        id: 23234,
-                        date: "2016-05-02",
-                        name: "赵四",
-                        address: "上海市普陀区金沙江路 1518 弄",
-                        phone: 13890633074,
-                        sex: "男"
-                    },
-                    {
-                        id: 23235,
-                        date: "2016-05-04",
-                        name: "王小虎",
-                        address: "上海市普陀区金沙江路 1517 弄",
-                        phone: 13890633074,
-                        sex: "男"
-                    },
-                    {
-                        id: 23236,
-                        date: "2016-05-01",
-                        name: "李三",
-                        address: "上海市普陀区金沙江路 1519 弄",
-                        phone: 13890633074,
-                        sex: "男"
-                    },
-                    {
-                        id: 23237,
-                        date: "2016-05-03",
-                        name: "王二",
-                        address: "上海市普陀区金沙江路 1516 弄",
-                        phone: 13890633074,
-                        sex: "男"
-                    }
                 ],
                 search: "",
-                currentPage: 1,
-                isEdit: false,
-                editUser: "",
-                editIndex: ""
+                editUser: {},
+                loading:true,
+                selectData:[],
+                pageForm:{
+                    limit:10,
+                    pageNumber:1,
+                    total:0
+                },
+                tableTitle:"用户数据表",
+                dialogVisible:false
             };
         },
         methods: {
             handleEdit(index, row) {
-                console.log(index, row);
+                /*编辑用户*/
                 this.editUser = {
-                    id: row.id,
-                    name: row.name,
+                    _id: row._id,
+                    username: row.username,
                     phone: row.phone,
                     address: row.address,
                     sex: row.sex,
-                    date: row.date
+                    recordDate: row.recordDate
                 };
-                this.isEdit = !this.isEdit;
-                this.editIndex = index;
+                this.dialogVisible = !this.dialogVisible;
             },
             handleDelete(index, row) {
-                console.log(index);
+                /*删除用户*/
                 this.$confirm("是否删除该用户?", "提示", {
                     confirmButtonText: "确定",
                     cancelButtonText: "取消",
                     type: "warning"
-                })
-                    .then(() => {
+                }).then(() => {
                         /*删除数据*/
-                        let del_index = this.tableData.findIndex(item => item.id === row.id);
-                        this.tableData.splice(del_index, 1);
-                        this.$message({
-                            type: "success",
-                            message: "删除成功!"
-                        });
+                        this.$axios.post("http://localhost:3000/user/deleteUser",{userList:[row._id]}).then((res)=>{
+                            if(res.data.err===0){
+                                this.$message({
+                                    type: "success",
+                                    message:res.data.data
+                                });
+                                this.loadUser();
+                            }
+                        })
                     })
                     .catch(() => {
                         this.$message({
@@ -123,15 +123,99 @@
                         });
                     });
             },
-            handleUser(type, user) {
-                /*编辑后的结果*/
+            async handleUser(type, user) {
+                /*提交用户修改*/
                 if (type === "edit") {
                     /*用户编辑*/
-                    let index = this.tableData.findIndex(item => item.id === user.id);
-
-                    this.tableData.splice(index, 1, user);
+                    let result = await this.$axios.post('http://localhost:3000/user/updateUser',user);
+                    if(result.data.err===0){
+                        this.$message({
+                            type: "success",
+                            message:result.data.data
+                        });
+                    }else{
+                        this.$message({
+                            type: "warn",
+                            message:result.data.data
+                        });
+                    }
+                    this.tableData.forEach((userItem,index)=>{
+                        if(userItem._id === user._id){
+                            this.tableData.splice(index,1,user);
+                        }
+                    })
                 }
-                this.isEdit = !this.isEdit;
+                this.dialogVisible = !this.dialogVisible;
+            },
+            formatDate(row){
+                /*日期格式化*/
+                let recordDate = row.recordDate;
+                recordDate = new Date(recordDate);
+                let year =recordDate.getFullYear();
+                let month = recordDate.getMonth()+1;
+                let date = recordDate.getDate();
+                return year+"-"+month+"-"+date
+            },
+            selectUserList(selectList){
+                /*多选 选中用户*/
+                this.selectData = selectList;
+            },
+            selectAll(selectList){
+                /*用户全选*/
+                this.selectData = selectList;
+            },
+            delMany(){
+                /*批量删除*/
+                if(this.selectData.length >0){
+                    let delList = [];
+                    this.selectData.forEach((user)=>{
+                        delList.push({_id:user._id});
+                    })
+                    this.$axios.post("http://localhost:3000/user/deleteUser",{userList:delList}).then((res)=>{
+                        if(res.data.err===0){
+                            this.$message({
+                                type: "success",
+                                message:res.data.data
+                            });
+                            this.loadUser();
+                        }
+                    })
+                }
+            },
+            async loadUser(){
+                /*刷新用户列表*/
+                this.loading = true;
+                let result =await this.$axios.post('http://localhost:3000/user/getUserList',this.pageForm)
+                if(result.data.err===0){
+                    this.tableData = result.data.data.userList;
+                    this.pageForm.total = result.data.data.total;
+                }
+                this.$nextTick(()=>{
+                    this.loading = false
+                })
+            },
+            changePageSize(pageSize){
+                /*修改每页的数目*/
+                this.pageForm.limit = pageSize;
+                this.loadUser();
+            },
+            changeCurrentPage(pageNumber){
+                /*修改当前页*/
+                this.pageForm.pageNumber = pageNumber;
+                this.loadUser();
+
+            },
+            prevClick(pageNumber){
+                /*上一页*/
+                this.pageForm.pageNumber = pageNumber;
+                this.loadUser();
+
+            },
+            nextClick(pageNumber){
+                /*下一页*/
+                this.pageForm.pageNumber = pageNumber;
+                this.loadUser();
+
             }
         },
         components: {
@@ -141,6 +225,4 @@
 </script>
 
 <style scoped  lang="stylus">
-    #userSystem
-        padding 20px 0 0 20px
 </style>

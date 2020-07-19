@@ -1,7 +1,10 @@
 <template>
-    <div>
-        <el-button @click="backLast">返回上一页</el-button>
-        文章详情
+    <div style="padding: 20px;">
+        <el-page-header @back="goBack" content="文章详情页面">
+        </el-page-header>
+        <div style="padding: 5px 10px;">
+            文章内容
+        </div>
     </div>
 </template>
 
@@ -17,7 +20,7 @@
             }
         },
         methods:{
-            backLast(){
+            goBack(){
                 this.$router.go(-1)
             }
         }

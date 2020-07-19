@@ -5,7 +5,7 @@
         <el-aside style="min-height:100%;width:200px;">
           <index-menu></index-menu>
         </el-aside>
-        <el-main>
+        <el-main style="padding: 20px;">
           <router-view></router-view>
         </el-main>
         <el-aside style="min-height:100%;" :style="{width:(isShowBoard ? '200px' : '160px')}">
