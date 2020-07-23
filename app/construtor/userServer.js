@@ -19,7 +19,7 @@ function delUserEvent(req,res){
         })
     }
 }
-/*获取用列表*/
+/*获取用户列表*/
 function getUserListEvent(req,res){
     let {username,sex,address,recordDate,isActive,level,pageNumber,limit}=req.body;
     let selectObj = getSelectObj("",username,recordDate,sex,level,isActive,address);
@@ -49,7 +49,6 @@ function updateUserEvent(req,res){
         address:address|| "",  //地址
         updateDate:new Date()  //最近
     };
-    console.log(updateObj,_id);
     updateUser({_id:_id},updateObj).then((user)=> {
         if (user) {
           res.send(_data(0,"用户"+username+"更新成功"))

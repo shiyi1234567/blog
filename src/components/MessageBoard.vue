@@ -51,7 +51,7 @@ export default {
     cleanContent() {
       this.form.desc = "";
     },
-    sendContent() {
+    async sendContent() {
       //取Vuex中保存的用户信息
       if (this.form.desc === "") return;
       let { userId, userName } = this.$store.state;
@@ -64,6 +64,8 @@ export default {
       };
       this.messageList.push(contentObj);
       localStorage.setItem("messageList", JSON.stringify(this.messageList));
+      let result = await this.$axios.post('http://localhost:3000/addMessage',{userId,userName,content:this.form.desc,limit:false});
+      console.log(result);
         this.form.desc = "";
     }
   },

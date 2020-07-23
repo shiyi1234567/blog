@@ -9,6 +9,7 @@ const Users = require('./schema/user')
 const Articles = require('./schema/articles')
 const {login,register} = require('./construtor/login')
 const {updateUserEvent,loadUserEvent,getUserListEvent,delUserEvent}=require('./construtor/userServer')
+const {addMessage,deleteMessage,findMessage}=require('./construtor/messageServes')
 app.use(urlencodedParser);
 app.use(jsonParser);
 app.all("*",function(req,res,next){
@@ -48,10 +49,9 @@ app.use('/user/getUserList',(req,res)=>{
 app.use('/user/deleteUser',(req,res)=>{
   delUserEvent(req,res);
 });
-/*检索查文档*/
+/*检索文档*/
 app.use('/loadContent',(req,res)=>{
     let _data = {};
-    console.log("aaa");
     let {search,searchKey}=req.body;
     Articles.find().then((content)=>{
         if(content){
@@ -63,6 +63,19 @@ app.use('/loadContent',(req,res)=>{
         }
     })
 });
+
+/*添加 留言*/
+app.use('/addMessage',(req,res)=>{
+    addMessage(req,res);
+});
+/*删除 留言*/
+app.use('/deleteMessage',(req,res)=>{
+    deleteMessage(req,res);
+});
+/*检索 留言*/
+app.use('/findMessage',(req,res)=>{
+    findMessage(req,res);
+})
 /*启动服务器*/
 app.listen(3000,(...a)=>{
     console.log("3000端口成功监听");

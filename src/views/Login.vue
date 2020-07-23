@@ -40,13 +40,14 @@
         min-height 100%
         min-width 800px
         height 100%
-        overflow  auto
         background-image url("~@/assets/bg.jpg")
         #homeWrap
             min-height 100%
             background-color transparent
+            border 1px solid red
             .content
                 padding 0 160px 65px 160px
+                border 1px solid black
                 .title
                     font-size 24px
                     text-align center
