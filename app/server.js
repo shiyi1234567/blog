@@ -5,7 +5,6 @@ const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: true })
 
 const mongoose = require('mongoose')
-const Users = require('./schema/user')
 const Articles = require('./schema/articles')
 const {login,register} = require('./construtor/login')
 const {updateUserEvent,loadUserEvent,getUserListEvent,delUserEvent}=require('./construtor/userServer')

@@ -4,7 +4,7 @@ const Messages = require('../schema/message');
 
 /*发布 留言*/
 async function addMessage(req,res){
-    let {userId,userName,content,limit}=req.body;
+    let {userId,userName,content,privacy}=req.body;
     let message = await new Messages({
         user:{
             userId,
@@ -12,10 +12,15 @@ async function addMessage(req,res){
         },
         recordDate:new Date(),
         content,
-        limit
+        privacy
     }).save();
     if(message){
-        res.send(_data(0,{messageId:message._id}));
+        let result = await Messages.find().sort({recordDate:-1}).skip(0).limit(10);
+        if(result.length>0){
+            res.send(_data(0,result));
+        }else{
+            res.send(_data(1,"获取留言数据失败"));
+        }
     }else{
         res.send(_data(1,"发布留言失败"));
     }
@@ -39,7 +44,7 @@ async function findMessage(req,res) {
     if(limit===""||limit===undefined){
         limit =10;
     }
-    let result = await Messages.find().skip((page-1)*10).limit(limit);
+    let result = await Messages.find().sort({recordDate:-1}).skip((page-1)*10).limit(limit);
     if(result.length>0){
         res.send(_data(0,result));
     }else{

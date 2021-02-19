@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+            font-size: 14px;
+        }
+        body{
+            font-size: 15px;
+        }
+        #box{
+            font-size: 18px;
+            width: 2rem;
+            padding: 2rem;
+            height: 2em;
+            margin: 2em;
+        }
+        #test{
+            font-size: 16px;
+        }
+        #wrap{
+            font-size: 2em;
+            width: 2rem;
+            padding: 2rem;
+            height: 2em;
+            margin: 2em;
+        }
+    </style>
 </head>
 <body>
 <div id="box" onclick="test()">click1</div>
-<div id="wrap">click2</div>
+<div id="test">
+    <div id="wrap">click2</div>
+</div>
+
 <script>
-    let reg = new RegExp(/^[1]+[3,8]+\d{9}$/);
-    alert(reg.test("13382258614"));
+   function fn(a) {
+       alert(a.a)
+   }
+
+   let funcName = "fn";
+   eval(funcName+"({a:111})");
 </script>
 </body>
 </html>

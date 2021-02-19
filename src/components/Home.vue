@@ -1,6 +1,6 @@
 <template>
-    <div id="home">
-        <el-container>
+    <div id="home" ref="wrapper">
+        <el-container class="content">
             <el-header style="height:45px;line-height: 45px">
                 <main-search @search="search" class="search_box"></main-search>
                 <h3 style="margin: 0;height: 45px;line-height: 45px">新消息发布</h3>
@@ -15,6 +15,7 @@
 <script>
     import MainSearch from './MainSearch'
     import MainContent from './MainContent'
+    import BScroll from 'better-scroll'
     export default {
         name: "Home",
         data(){
@@ -22,6 +23,14 @@
                 contents:[],
                 searchKey:""
             }
+        },
+        mounted(){
+            this.$nextTick(()=>{
+                new BScroll(this.$refs.wrapper,{
+                    scrollY: true,
+                    click: true
+                })
+            })
         },
         methods:{
           search(value){
@@ -49,6 +58,8 @@
 
 <style scoped lang="stylus">
     #home
+        width 100%
+        height 100%
         .search_box
             display inline-block
             width 250px

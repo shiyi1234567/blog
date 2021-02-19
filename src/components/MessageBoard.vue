@@ -36,13 +36,14 @@ export default {
       messageList: []
     };
   },
-  created() {
-    /*将留言内容存储到本地*/
-    let storageMessageList = localStorage.getItem("messageList");
-    if (storageMessageList) {
-      storageMessageList = JSON.parse(localStorage.getItem("messageList"));
-    }
-    this.messageList = storageMessageList || [];
+  async created() {
+    //获取最新的十条留言内容
+
+      let result = await this.$axios.post('http://localhost:3000/findMessage',{page:1,limit:10});
+      if(result.data.err === 0){
+          console.log(result);
+          this.messageList = result.data.data;
+      }
   },
   methods: {
     closeBoard() {
@@ -55,17 +56,10 @@ export default {
       //取Vuex中保存的用户信息
       if (this.form.desc === "") return;
       let { userId, userName } = this.$store.state;
-      let contentObj = {
-        Id: this.messageList.length + 1,
-        user: userName,
-        userId: userId,
-        date: new Date(),
-        content: this.form.desc
-      };
-      this.messageList.push(contentObj);
-      localStorage.setItem("messageList", JSON.stringify(this.messageList));
-      let result = await this.$axios.post('http://localhost:3000/addMessage',{userId,userName,content:this.form.desc,limit:false});
-      console.log(result);
+      let result = await this.$axios.post('http://localhost:3000/addMessage',{userId,userName,content:this.form.desc,privacy:this.form.limit});
+     if(result.data.err===0){
+         this.messageList = result.data.data;
+     }
         this.form.desc = "";
     }
   },

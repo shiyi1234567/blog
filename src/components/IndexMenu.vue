@@ -1,6 +1,6 @@
 <template>
-    <div id="wrap">
-        <el-row class="tac">
+    <div id="wrap" ref="wrapperMenu">
+        <el-row class="content">
             <el-col>
                 <el-menu
                         default-active="/index/home"
@@ -54,6 +54,7 @@
 <script>
     import IndexPatient from './IndexPatient'
     import {getCookie,clearCookie} from '../utils/utils.js'
+    import BScroll from 'better-scroll'
     export default {
         name: "IndexMenu",
         data(){
@@ -79,8 +80,15 @@
                 clearCookie(loginForm.userName,loginForm.password);
                 this.$router.push("/login")
             }
-        }
-        ,
+        },
+        mounted(){
+            this.$nextTick(()=>{
+                new BScroll(this.$refs.wrapperMenu,{
+                    scrollY: true,
+                    click: true
+                })
+            })
+        },
         components:{
             IndexPatient
         }
@@ -92,5 +100,4 @@
     height 100%
     min-height 100%
     border-right 1px solid #e6e6e6
-    overflow hidden
 </style>
