@@ -1,14 +1,13 @@
 <template>
   <div id="main">
-    <div>
-      <el-container style="min-height:100%;">
-        <el-aside style="min-height:100%;width:200px;">
+      <el-container style="height: 100%;">
+        <el-aside style="height:100%;width:200px;">
           <index-menu></index-menu>
         </el-aside>
-        <el-main style="padding: 20px;">
+        <el-main style="height:100%;padding: 20px;position:relative;">
           <router-view></router-view>
         </el-main>
-        <el-aside style="min-height:100%;" :style="{width:(isShowBoard ? '200px' : '160px')}">
+        <el-aside style="height:100%;" :style="{width:(isShowBoard ? '200px' : '160px')}">
           <message-board
             :show="isShowBoard"
             v-show="isShowBoard"
@@ -16,18 +15,16 @@
             @closeBoard="troggleBoard"
             style="width:200px"
           ></message-board>
-        </el-aside>
-        <el-button
-          icon="el-icon-notebook-1"
-          v-show="!isShowBoard"
-          @click="troggleBoard"
-          style="position: fixed;background-color:transparent;"
-          :style="{top:top,right:right}"
-          v-drag="flag"
+          <el-button
+                icon="el-icon-notebook-1"
+                v-show="!isShowBoard"
+                @click="troggleBoard"
+                style="position: fixed;background-color:transparent;"
+                :style="{top:top,right:right}"
+                v-drag="flag"
         >留言板</el-button>
+        </el-aside>
       </el-container>
-    </div>
-    <div class="editBoard"></div>
   </div>
 </template>
 
@@ -49,8 +46,6 @@ export default {
   },
   methods: {
     troggleBoard() {
-        console.log(5+"-"+this.flag)
-
         if(this.flag){
             this.flag = !this.flag;
             return

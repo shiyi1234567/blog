@@ -38,30 +38,28 @@
 <style scoped lang="stylus">
     #homePage
         min-height 100%
-        min-width 800px
+        min-width 50rem
         height 100%
         background-image url("~@/assets/bg.jpg")
         #homeWrap
             min-height 100%
             background-color transparent
-            border 1px solid red
             .content
-                padding 0 160px 65px 160px
-                border 1px solid black
+                padding 0 10rem 4rem 10rem
                 .title
-                    font-size 24px
+                    font-size 1.5rem
                     text-align center
                     color white
-                    height 60px
-                    line-height 60px
+                    height 4rem
+                    line-height 4rem
                 .hei_400
-                    height 400px
+                    height 25rem
         #footer
-            height 65px
-            margin-top -65px
+            height 4rem
+            margin-top -4rem
             .font
-                height 65px
-                line-height 65px
+                height 4rem
+                line-height 4rem
                 text-align center
             .connect
                 color: #252525

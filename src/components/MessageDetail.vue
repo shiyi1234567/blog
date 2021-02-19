@@ -1,6 +1,6 @@
 <template>
     <div id="messageDetail">
-            <span class="detail_user">{{messageDetail.user}}:</span>
+            <span class="detail_user">{{messageDetail.user.userName}}:</span>
             <span class="detail_content">{{messageDetail.content}}</span>
     </div>
 </template>
@@ -20,5 +20,5 @@
     font-weight 400
     color #C0C0C0
     .detail_user
-        color #99CCFF    
+        color #99CCFF
 </style>

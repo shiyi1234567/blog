@@ -26,12 +26,12 @@
 <style scoped lang="stylus">
 #message
     box-sizing border-box
-    padding 30px 50px
+    padding 2rem 4rem
     width 100%
     height 100%
-    background-color black
+    background-color rgb(0,0,0)
     color #fefefe
-    border-radius 5px 0 0 5px
+    border-radius 0.5rem 0 0 0.5rem
     p
         margin-top 20px
     .desc-chin
